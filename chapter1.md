@@ -1,6 +1,6 @@
 # Basics
 
-This chapter describes basics about Kotlin programming language. 
+This chapter describes basics about Kotlin programming language.
 
 ### Variables & Constants
 
@@ -57,7 +57,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-### Expressions 
+### Expressions
 
 ```
 3+6
@@ -83,7 +83,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-Here is what is possible. 
+Here is what is possible.
 
 ```
 package handbook
@@ -101,13 +101,13 @@ fun main(args: Array<String>) {
 }
 ```
 
-Prints out: 
+Prints out:
 
 ```
 null
 null
 Exception in thread "main" kotlin.KotlinNullPointerException
-	at handbook.NullableVariablesKt.main(NullableVariables.kt:12)
+    at handbook.NullableVariablesKt.main(NullableVariables.kt:12)
 ```
 
 ### Conditional Statements
@@ -138,7 +138,7 @@ fun main(args: Array<String>) {
         else -> "Whatever..."
     }
     println(result)
-    
+
     val anotherOne = if (age == 35) {
         "Oh man!"
     } else {
@@ -156,7 +156,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-Here is what gets printed. 
+Here is what gets printed.
 
 ```
 You are too old, go back by twenty steps
@@ -196,7 +196,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-Here is the output: 
+Here is the output:
 
 ```
 1
@@ -213,7 +213,317 @@ true
 ### Lists
 
 ```
+fun main(args: Array<String>) {
+    val list = listOf("hi", "there")
+    // list.add("stranger") // not possible
+    println(list)
 
+    val arrayList = arrayListOf("well", "that", "is")
+    arrayList.add("awesome")
+    println(arrayList)
+
+    // connect two lists
+    println(list + arrayList)
+    println(list + arrayList[0])
+}
+```
+
+Here is the output:
+
+```
+[hi, there]
+[well, that, is, awesome]
+[hi, there, well, that, is, awesome]
+[hi, there, well]
+```
+
+### For Loops
+
+```
+package handbook
+
+fun main(args: Array<String>) {
+    var sum = 0
+    for (i in 1..10) {
+        sum += i
+    }
+    println(sum)
+
+    val languages = listOf("Java", "Kotlin")
+    for ((index, language) in languages.withIndex()) {
+        println("$index $language")
+    }
+} sv
+```
+
+Here is the output.
+
+```
+55
+0 Java
+1 Kotlin
+```
+
+### While Loops
+
+```
+package handbook
+
+fun main(args: Array<String>) {
+    var x = 5
+    while (x >= 0) {
+        println(x)
+        x--
+    }
+}
+```
+
+Here is the output:
+
+```
+5
+4
+3
+2
+1
+0
+```
+
+### Functions
+
+```
+package handbook
+
+fun main(args: Array<String>) {
+    println(enhance("kotlin"))
+}
+
+fun enhance(text: String) : String {
+    var result = ""
+    for (letter in text) {
+        result += letter.toUpperCase() + " "
+    }
+    return result
+}
+```
+
+Here is the output.
+
+```
+K O T L I N
+```
+
+### Classes & Methods
+
+```
+package handbook
+
+class Car(val color: String) {
+    private val otherColor: String
+
+    init {
+        println("object is being created")
+        otherColor = color
+    }
+
+    var name = ""
+    var running = false
+
+    fun startEngine(remote: Boolean) {
+        println("Starting (remote $remote): $name, $color vrum vruuum")
+        running = true
+    }
+
+    fun isRunning() = running
+}
+
+fun main(args: Array<String>) {
+    val car = Car("Metalic Gray")
+    car.name = "Mustang"
+    println(car.color)
+    println(car.name)
+
+    car.startEngine(remote = true)
+    println(car.isRunning())
+}
+```
+
+Here is the output.
+
+```
+object is being created
+Metalic Gray
+Mustang
+Starting (remote true): Mustang, Metalic Gray vrum vruuum
+true
+```
+
+### Inheritance & Interfaces
+
+```
+package handbook
+
+interface EarthCompatible {
+    var fromInterface: String
+    fun someMethod()
+    fun defaultMethod() {
+        println("Default method called")
+    }
+}
+
+abstract class Creature : EarthCompatible {
+    override var fromInterface: String = "Lets set value in abstract class"
+    abstract fun isLiving()
+}
+
+open class Animal(open var name: String) : Creature() {
+    override fun someMethod() {
+        println("Some method called")
+    }
+
+    override fun isLiving() {
+        println("checking life functions")
+    }
+
+    fun doIt() = "$name is doing it"
+
+    open fun ableToOverride() = "I can be overridden"
+}
+
+open class Cat(override var name: String) : Animal(name) {
+    override final fun ableToOverride(): String {
+        return "And I was overridden"
+    }
+}
+
+fun main(args: Array<String>) {
+    val cat: Animal = Cat("Jimmy")
+    println(cat.doIt())
+    cat.isLiving()
+    cat.someMethod()
+    println(cat.fromInterface)
+    println(cat.ableToOverride())
+    cat.defaultMethod()
+}
+```
+
+Here is the output.
+
+```
+Jimmy is doing it
+checking life functions
+Some method called
+Lets set value in abstract class
+And I was overridden
+Default method called
+```
+
+### Data Classes
+
+```
+package handbook
+
+data class Human(val name: String, val age: Int)
+
+fun main(args: Array<String>) {
+    val h1 = Human("Jimmy", 24)
+    val h2 = Human("Jimmy", 24)
+    println(h1)
+    println(h1.equals(h2))
+    println(h1.hashCode())
+    println(h2.hashCode())
+
+    val h3 = h1.copy()
+    println(h3)
+
+    val (name, age) = h3
+    println(name)
+    println(age)
+
+    val set = hashSetOf(h1, h2, h3)
+    println(set)
+}
+```
+
+Here is the output.
+
+```
+Human(name=Jimmy, age=24)
+true
+-2076084674
+-2076084674
+Human(name=Jimmy, age=24)
+Jimmy
+24
+[Human(name=Jimmy, age=24)]
+```
+
+### Singleton
+
+```
+package handbook
+
+object Cache {
+    val values = HashMap<String, String>()
+    fun put(key: String, value: String): String {
+        // do it here
+        values.put(key, value)
+    }
+
+    fun get(key: String): String? {
+        return values.get(key)
+    }
+
+    fun clear() {
+        values.clear()
+    }
+}
+
+fun main(args: Array<String>) {
+    val cache = Cache
+    cache.put("item1", "value1")
+    println(cache.get("item1"))
+}
+```
+
+### Enums
+
+```
+package handbook
+
+enum class Type {
+    positive, negative
+}
+
+fun main(args: Array<String>) {
+    println(Type.positive)
+    println(Type.negative)
+}
+```
+
+### Packages & Imports
+
+We can import classes and also functions. We can create a function `someFunction` in a package.
+
+```
+package handbook.package1
+
+fun someFunction(): String {
+    return "some string..."
+}
+```
+
+Then we can use that function in other class which is other package.
+
+```
+package handbook.package2
+
+import handbook.package1.someFunction
+
+fun main(args: Array<String>) {
+    val someString = someFunction()
+    println(someString)
+}
 ```
 
 
