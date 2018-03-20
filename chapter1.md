@@ -5,8 +5,6 @@ This chapter describes basics about Kotlin programming language.
 ### Variables & Constants
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     var variable = "Hi"
     variable = "I can change val variable"
@@ -21,8 +19,6 @@ fun main(args: Array<String>) {
 ### Primitive Types & Strings
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     val string = "Crazy people" + " might be everywhere"
     println(string)
@@ -86,8 +82,6 @@ fun main(args: Array<String>) {
 Here is what is possible.
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     // we can assign null to non type variable
     var n = null
@@ -113,8 +107,6 @@ Exception in thread "main" kotlin.KotlinNullPointerException
 ### Conditional Statements
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     val age = 35
     if (age < 30) {
@@ -240,8 +232,6 @@ Here is the output:
 ### For Loops
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     var sum = 0
     for (i in 1..10) {
@@ -292,8 +282,6 @@ Here is the output:
 ### Functions
 
 ```
-package handbook
-
 fun main(args: Array<String>) {
     println(enhance("kotlin"))
 }
@@ -316,8 +304,6 @@ K O T L I N
 ### Classes & Methods
 
 ```
-package handbook
-
 class Car(val color: String) {
     private val otherColor: String
 
@@ -361,8 +347,6 @@ true
 ### Inheritance & Interfaces
 
 ```
-package handbook
-
 interface EarthCompatible {
     var fromInterface: String
     fun someMethod()
@@ -418,11 +402,37 @@ And I was overridden
 Default method called
 ```
 
+### Getters and Setters
+
+```
+open class Person {
+    private var reallyInternalVariable = 0 // only class
+    protected var onlySubClassesCanAccessThis = 0 // only class and its sub classes
+    internal val isInternal = true // can be accessed inside a module
+    public val isPublic = true // this one is the default visiblity
+
+    var age: Int = 0
+        get() = field
+        set(value) {
+            if (value > 0) {
+                field = value
+            }
+        }
+}
+
+fun main(args: Array<String>) {
+    val p1 = Person()
+    p1.age = 66
+    p1.age = -100
+    // p1.reallyInternalVariable = 1000 // not possible
+    println(p1.age) // prints 66
+    println(p1.isPublic)
+}
+```
+
 ### Data Classes
 
 ```
-package handbook
-
 data class Human(val name: String, val age: Int)
 
 fun main(args: Array<String>) {
@@ -461,8 +471,6 @@ Jimmy
 ### Singleton
 
 ```
-package handbook
-
 object Cache {
     val values = HashMap<String, String>()
     fun put(key: String, value: String): String {
@@ -489,8 +497,6 @@ fun main(args: Array<String>) {
 ### Enums
 
 ```
-package handbook
-
 enum class Type {
     positive, negative
 }
@@ -525,6 +531,59 @@ fun main(args: Array<String>) {
     println(someString)
 }
 ```
+
+### Generics
+
+```
+class Stack<T>(vararg items: T) {
+    private val values = items.toMutableList()
+    fun push(item: T) {
+        values.add(item)
+    }
+
+    fun pop(): T? {
+        if (values.isNotEmpty()) {
+            val size = values.size
+            return values.removeAt(size - 1)
+        }
+        return null
+    }
+}
+
+fun <T> stackOf(vararg items: T): Stack<T> {
+    return Stack(*items) // * is spread operator
+}
+
+fun main(args: Array<String>) {
+    val stack = Stack(1, 2)
+    stack.push(3)
+    println(stack.pop())
+    println(stack.pop())
+    println(stack.pop())
+    println(stack.pop())
+
+    val stack2 = stackOf(1, 2, 3)
+    println(stack2.pop())
+    println(stack2.pop())
+    println(stack2.pop())
+}
+```
+
+Here is the output: 
+
+```
+3
+2
+1
+null
+3
+2
+1
+```
+
+### Input & Output
+
+
 
 
 
