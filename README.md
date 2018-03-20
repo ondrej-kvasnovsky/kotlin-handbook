@@ -1,6 +1,6 @@
 # Kotlin Handbook
 
-[Kotlin](https://kotlinlang.org) is statically typed language based on JVM.
+[Kotlin](https://kotlinlang.org) is statically typed language based on JVM. Source code used in this handbook is available on [github/kotlin-handbook](https://github.com/ondrej-kvasnovsky/kotlin-handbook) repository.
 
 ### Install
 
