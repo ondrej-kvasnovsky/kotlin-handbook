@@ -16,10 +16,34 @@ fun main(args: Array<String>) {
     println(0x00FFFF and 0xFF0000 != 0) // false
     println(0x00FFFF or 0xFF0000 != 0) // true
     println(0x00FFFF xor 0xFF0000 != 0) // true
-    
+
     println(0b1011) // 1
     println(0b1011.inv() and 0x000001F) // 20
 }
+```
+
+Find out whether a number is power of 2.
+
+```
+    val x = 128
+    val xBinary = Integer.toBinaryString(x)
+    val xMinusOne = x - 1
+    val xMinusOneBinary = Integer.toBinaryString(xMinusOne)
+    println(xBinary)
+    println(xMinusOneBinary)
+    println(x and xMinusOne)
+
+    val isPowerOfTwo = x and xMinusOne == 0
+    println(isPowerOfTwo)
+```
+
+Here is the output. 
+
+```
+10000000
+1111111
+0
+true
 ```
 
 ### Hexadecimal
